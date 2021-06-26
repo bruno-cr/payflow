@@ -21,7 +21,8 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     controller.getAvailableCameras();
     controller.statusNotifier.addListener(() {
       if (controller.status.hasBarcode) {
-        Navigator.pushReplacementNamed(context, "/insert_boleto");
+        Navigator.pushNamed(context, "/insert_boleto",
+          arguments: controller.status.barcode);
       }
     });
 
@@ -94,6 +95,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                   labelPrimary: "Inserir código do boleto",
                   onTapPrimary: () {
                     controller.status = BarcodeScannerStatus.error("Error");
+                    Navigator.pushNamed(context, "/insert_boleto");
                   },
                   labelSecondary: "Adicionar da galeria",
                   onTapSecondary: controller.scanWithImagePicker,
@@ -111,7 +113,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                             controller.scanWithCamera();
                           },
                           labelSecondary: "Digitar código",
-                          onTapSecondary: () {},
+                          onTapSecondary: () {
+                            Navigator.pushNamed(context, "/insert_boleto");
+                          },
                           title:
                               "Não foi possível identificar um código de barras.",
                           subtitle:
